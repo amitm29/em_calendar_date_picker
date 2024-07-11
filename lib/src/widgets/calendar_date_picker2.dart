@@ -11,11 +11,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 part '_impl/_calendar_scroll_view.dart';
+
 part '_impl/_calendar_view.dart';
+
 part '_impl/_date_picker_mode_toggle_button.dart';
+
 part '_impl/_day_picker.dart';
+
 part '_impl/_focus_date.dart';
+
 part '_impl/_month_picker.dart';
+
 part '_impl/year_picker.dart';
 
 const Duration _monthScrollDuration = Duration(milliseconds: 200);
@@ -153,13 +159,12 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
   void _vibrate() {
     switch (Theme.of(context).platform) {
       case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
         HapticFeedback.vibrate();
         break;
       case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
+        HapticFeedback.lightImpact();
+        break;
+      default:
         break;
     }
   }
