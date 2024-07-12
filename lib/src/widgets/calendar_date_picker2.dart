@@ -194,7 +194,7 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
     DateTime date, {
     bool fromYearPicker = false,
   }) {
-    _vibrate();
+    // _vibrate();
     setState(() {
       final currentDisplayedMonthDate = DateTime(
         _currentDisplayedMonthDate.year,
