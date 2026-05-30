@@ -92,7 +92,7 @@ class _CalendarWeekPicker2WithActionButtonsState
             value: [..._editCache],
             config: widget.config.copyWith(
               calendarType: CalendarDatePicker2Type.range,
-              firstDayOfWeek: DateTime.monday,
+              firstDayOfWeek: widget.config.firstDayOfWeek ?? DateTime.monday,
               daySplashColor: Colors.transparent,
               monthBorderRadius: BorderRadius.circular(12),
               yearBorderRadius: BorderRadius.circular(12),
@@ -186,12 +186,14 @@ class _CalendarWeekPicker2WithActionButtonsState
   }
 
   (DateTime, DateTime) _getWeekBoundsFor(DateTime dateTime) {
-    final weekStartDate = dateTime.subtract(
-      Duration(days: dateTime.weekday - 1),
-    );
-    final weekEndDate = dateTime.add(
-      Duration(days: DateTime.daysPerWeek - dateTime.weekday),
-    );
+    // config.firstDayOfWeek is 0=Sun..6=Sat (Flutter firstDayOfWeekIndex).
+    final firstDayOfWeekIndex = widget.config.firstDayOfWeek ?? DateTime.monday;
+    // convert to DateTime weekday convention (1=Mon..7=Sun)
+    final startWeekday =
+        firstDayOfWeekIndex == 0 ? DateTime.sunday : firstDayOfWeekIndex;
+    final offset = (dateTime.weekday - startWeekday + 7) % 7;
+    final weekStartDate = dateTime.subtract(Duration(days: offset));
+    final weekEndDate = weekStartDate.add(const Duration(days: 6));
 
     return (weekStartDate, weekEndDate);
   }
